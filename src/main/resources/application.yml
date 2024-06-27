@@ -1,0 +1,46 @@
+spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+  datasource:
+    url: jdbc:mysql://${db_host}:3306/animores
+    username: ${db_username}
+    password: ${db_password}
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+
+  cloud:
+    aws:
+      credentials:
+        accessKey: ${s3_access_key}
+        secretKey: ${s3_secret_key}
+      s3:
+        bucket: ${bucket_name}
+      region:
+        static: ${s3_region}
+      stack:
+        auto: false
+      sqs:
+        mail-queue: PetEmail
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "prometheus"
+
+openapi:
+  service:
+    title: diary-service doc #title that you will want to display in the swagger ui
+    version: 1.0.0
+    url: ${gateway-url}
