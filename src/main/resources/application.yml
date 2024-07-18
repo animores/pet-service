@@ -41,6 +41,6 @@ management:
 
 openapi:
   service:
-    title: diary-service doc #title that you will want to display in the swagger ui
+    title: pet-service doc #title that you will want to display in the swagger ui
     version: 1.0.0
     url: ${gateway-url}
