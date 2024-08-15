@@ -37,8 +37,8 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(IllegalArgumentException.class)
-    public Response<Void> handleIllegalArgumentException(IllegalArgumentException e) {
-        return Response.error(e.getMessage());
+    public ResponseEntity<Response<Void>> handleIllegalArgumentException(IllegalArgumentException e) {
+        return ResponseEntity.badRequest().body(Response.error(e.getMessage()));
     }
 
     @ExceptionHandler(DataIntegrityViolationException.class)
