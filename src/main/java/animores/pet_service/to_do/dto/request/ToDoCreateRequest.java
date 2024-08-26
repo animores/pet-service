@@ -38,7 +38,7 @@ public record ToDoCreateRequest(
 		@Schema(description = "반복 설정")
         Repeat repeat
 ) {
-	public ToDoCreateRequest {
+	public void validate() {
 		if(tag == null && (content == null || content.isBlank())) {
 			throw new IllegalArgumentException("태그와 내용 중 하나는 필수입니다.");
 		}

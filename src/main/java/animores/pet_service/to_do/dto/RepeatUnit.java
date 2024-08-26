@@ -8,10 +8,10 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public enum RepeatUnit {
+    HOUR,
     DAY,
     WEEK,
-    MONTH,
-    YEAR;
+    MONTH;
 
     private static final Map<String, RepeatUnit> namesMap =
             Stream.of(RepeatUnit.values())

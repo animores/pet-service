@@ -12,15 +12,16 @@ import java.util.stream.Stream;
 @Getter
 @AllArgsConstructor
 public enum WeekDay {
-    MONDAY("월"),
-    TUESDAY("화"),
-    WEDNESDAY("수"),
-    THURSDAY("목"),
-    FRIDAY("금"),
-    SATURDAY("토"),
-    SUNDAY("일");
+    MONDAY("월",1),
+    TUESDAY("화", 2),
+    WEDNESDAY("수", 3),
+    THURSDAY("목", 4),
+    FRIDAY("금",5),
+    SATURDAY("토", 6),
+    SUNDAY("일",7);
 
     private final String name;
+    private final int value;
 
 
     private static final Map<String, WeekDay> namesMap =
@@ -29,6 +30,6 @@ public enum WeekDay {
 
     @JsonCreator
     public static WeekDay fromString(String value) {
-        return namesMap.get(value.toUpperCase());
+        return namesMap.get(value);
     }
 }

@@ -117,6 +117,9 @@ public class ToDo extends BaseEntity {
         LocalDateTime targetDateTime = LocalDateTime.of(date, time);
         while (targetDateTime.isBefore(LocalDateTime.now())) {
             switch (unit) {
+                case HOUR:
+                    targetDateTime = targetDateTime.plusHours(intervalNum);
+                    break;
                 case DAY:
                     targetDateTime = targetDateTime.plusDays(intervalNum);
                     break;
@@ -132,9 +135,6 @@ public class ToDo extends BaseEntity {
                     break;
                 case MONTH:
                     targetDateTime = targetDateTime.plusMonths(intervalNum);
-                    break;
-                case YEAR:
-                    targetDateTime = targetDateTime.plusYears(intervalNum);
                     break;
                 default:
                     return null;
