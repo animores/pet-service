@@ -43,6 +43,7 @@ public class ToDoServiceImpl implements ToDoService {
     @Override
     @Transactional
     public void createToDo(Account account, ToDoCreateRequest request) {
+        request.validate();
         Profile createProfile = profileRepository.getReferenceById(request.profileId());
         ToDo toDo = ToDo.fromRequest(request, account, createProfile);
         toDo = toDoRepository.save(toDo);

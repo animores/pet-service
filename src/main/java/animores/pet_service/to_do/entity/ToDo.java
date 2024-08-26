@@ -56,18 +56,22 @@ public class ToDo extends BaseEntity {
 
     public static ToDo fromRequest(ToDoCreateRequest request, Account account, Profile createProfile) {
         ToDo toDo = new ToDo();
+
         toDo.account = account;
         toDo.createProfile = createProfile;
         toDo.date = request.date();
-        toDo.time = request.time();
+        toDo.isUsingAlarm = false;
         toDo.isAllDay = request.isAllDay();
+        if(toDo.isAllDay()) {
+            toDo.time = request.time();
+            toDo.isUsingAlarm = request.isUsingAlarm();
+        }
         toDo.resolveTag(request);
         toDo.color = request.color();
-        toDo.isUsingAlarm = request.isUsingAlarm();
         if(request.repeat() != null) {
             toDo.unit = request.repeat().unit();
             toDo.intervalNum = request.repeat().interval();
-            toDo.weekDays = request.repeat().weekDays();
+            toDo.weekDays = request.repeat().weekDays().stream().map(WeekDay::fromString).toList();
         }
         return toDo;
     }
@@ -117,6 +121,9 @@ public class ToDo extends BaseEntity {
         LocalDateTime targetDateTime = LocalDateTime.of(date, time);
         while (targetDateTime.isBefore(LocalDateTime.now())) {
             switch (unit) {
+                case HOUR:
+                    targetDateTime = targetDateTime.plusHours(intervalNum);
+                    break;
                 case DAY:
                     targetDateTime = targetDateTime.plusDays(intervalNum);
                     break;
@@ -132,9 +139,6 @@ public class ToDo extends BaseEntity {
                     break;
                 case MONTH:
                     targetDateTime = targetDateTime.plusMonths(intervalNum);
-                    break;
-                case YEAR:
-                    targetDateTime = targetDateTime.plusYears(intervalNum);
                     break;
                 default:
                     return null;

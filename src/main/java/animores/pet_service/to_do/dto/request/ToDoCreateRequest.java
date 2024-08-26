@@ -2,7 +2,6 @@ package animores.pet_service.to_do.dto.request;
 
 import animores.pet_service.pet.type.Tag;
 import animores.pet_service.to_do.dto.RepeatUnit;
-import animores.pet_service.to_do.dto.WeekDay;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -38,25 +37,17 @@ public record ToDoCreateRequest(
 		@Schema(description = "반복 설정")
         Repeat repeat
 ) {
-	public ToDoCreateRequest {
+	public void validate() {
 		if(tag == null && (content == null || content.isBlank())) {
 			throw new IllegalArgumentException("태그와 내용 중 하나는 필수입니다.");
-		}
-
-		if(isAllDay && time != null) {
-			throw new IllegalArgumentException("하루 종일 일정일 때 시간은 입력할 수 없습니다.");
 		}
 
 		if(!isAllDay && time == null) {
 			throw new IllegalArgumentException("시간은 필수입니다.");
 		}
 
-		if(isAllDay && isUsingAlarm) {
-			throw new IllegalArgumentException("하루 종일 일정일 때 알람은 설정할 수 없습니다.");
-		}
-
-		if(isAllDay && repeat != null) {
-			throw new IllegalArgumentException("하루 종일 일정일 때 반복 설정은 할 수 없습니다.");
+		if(isAllDay && repeat != null && repeat.unit() == RepeatUnit.HOUR) {
+			throw new IllegalArgumentException("하루 종일 일정일 때 시간 반복 설정은 할 수 없습니다.");
 		}
 	}
 
@@ -67,5 +58,5 @@ public record ToDoCreateRequest(
 			@Schema(description = "반복 간격", example = "1")
 			Integer interval,
 			@Schema(description = "반복 요일 목록, unit이 WEEK일 때만 사용")
-			List<WeekDay> weekDays){}
+			List<String> weekDays){}
 }

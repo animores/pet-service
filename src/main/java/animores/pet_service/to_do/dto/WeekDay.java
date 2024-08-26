@@ -1,5 +1,6 @@
 package animores.pet_service.to_do.dto;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -11,21 +12,24 @@ import java.util.stream.Stream;
 @Getter
 @AllArgsConstructor
 public enum WeekDay {
-    MONDAY(1),
-    TUESDAY(2),
-    WEDNESDAY(3),
-    THURSDAY(4),
-    FRIDAY(5),
-    SATURDAY(6),
-    SUNDAY(7);
+    MONDAY("월",1),
+    TUESDAY("화", 2),
+    WEDNESDAY("수", 3),
+    THURSDAY("목", 4),
+    FRIDAY("금",5),
+    SATURDAY("토", 6),
+    SUNDAY("일",7);
 
-    private int value;
+    private final String name;
+    private final int value;
+
 
     private static final Map<String, WeekDay> namesMap =
             Stream.of(WeekDay.values())
-                    .collect(Collectors.toMap(WeekDay::name, Function.identity()));
+                    .collect(Collectors.toMap(WeekDay::getName, Function.identity()));
 
+    @JsonCreator
     public static WeekDay fromString(String value) {
-        return namesMap.get(value.toUpperCase());
+        return namesMap.get(value);
     }
 }
