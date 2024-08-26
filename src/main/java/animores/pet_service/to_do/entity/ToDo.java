@@ -56,20 +56,22 @@ public class ToDo extends BaseEntity {
 
     public static ToDo fromRequest(ToDoCreateRequest request, Account account, Profile createProfile) {
         ToDo toDo = new ToDo();
+
         toDo.account = account;
         toDo.createProfile = createProfile;
         toDo.date = request.date();
+        toDo.isUsingAlarm = false;
         toDo.isAllDay = request.isAllDay();
         if(toDo.isAllDay()) {
             toDo.time = request.time();
+            toDo.isUsingAlarm = request.isUsingAlarm();
         }
         toDo.resolveTag(request);
         toDo.color = request.color();
-        toDo.isUsingAlarm = request.isUsingAlarm();
         if(request.repeat() != null) {
             toDo.unit = request.repeat().unit();
             toDo.intervalNum = request.repeat().interval();
-            toDo.weekDays = request.repeat().weekDays();
+            toDo.weekDays = request.repeat().weekDays().stream().map(WeekDay::fromString).toList();
         }
         return toDo;
     }
