@@ -59,8 +59,10 @@ public class ToDo extends BaseEntity {
         toDo.account = account;
         toDo.createProfile = createProfile;
         toDo.date = request.date();
-        toDo.time = request.time();
         toDo.isAllDay = request.isAllDay();
+        if(toDo.isAllDay()) {
+            toDo.time = request.time();
+        }
         toDo.resolveTag(request);
         toDo.color = request.color();
         toDo.isUsingAlarm = request.isUsingAlarm();
