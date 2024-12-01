@@ -41,8 +41,6 @@ public class PetController {
         return Response.success(petService.getPetImages(speciesId));
     }
 
-//    @PreAuthorize("hasAuthority('USER')")
-//    @SecurityRequirement(name = "Authorization")
     @UserInfo
     @PostMapping("")
     @Operation(summary = "펫 생성", description = "펫을 생성합니다.")
@@ -51,8 +49,6 @@ public class PetController {
         return Response.success(petService.createPet(account, request));
     }
 
-//    @PreAuthorize("hasAuthority('USER')")
-//    @SecurityRequirement(name = "Authorization")
     @UserInfo
     @GetMapping("")
     @Operation(summary = "펫 List", description = "해당 계정의 펫을 가져옵니다.")
@@ -61,8 +57,6 @@ public class PetController {
         return Response.success(petService.getPets(account));
     }
 
-//    @PreAuthorize("hasAuthority('USER')")
-//    @SecurityRequirement(name = "Authorization")
     @UserInfo
     @GetMapping("/{petId}")
     @Operation(summary = "펫 조회", description = "id 로 해당 펫을 조회합니다.")
@@ -72,8 +66,6 @@ public class PetController {
         return Response.success(petService.getPet(petId));
     }
 
-//    @PreAuthorize("hasAuthority('USER')")
-//    @SecurityRequirement(name = "Authorization")
     @UserInfo
     @PutMapping("/{petId}")
     @Operation(summary = "펫 수정", description = "id 로 해당 펫을 수정합니다.")
@@ -83,8 +75,6 @@ public class PetController {
         return Response.success(petService.updatePet(petId, request));
     }
 
-//    @PreAuthorize("hasAuthority('USER')")
-//    @SecurityRequirement(name = "Authorization")
     @UserInfo
     @DeleteMapping("/{petId}")
     @Operation(summary = "펫 삭제", description = "id 로 해당 펫을 삭제합니다.")

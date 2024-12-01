@@ -27,7 +27,6 @@ public class AccountServiceImpl implements AccountService {
     private final String accountServiceUrl;
     private final RestTemplate restTemplate;
     private final ObjectMapper objectMapper = new ObjectMapper();
-    private static final String DEFAULT_ACCOUNT_ID = "13";
     public AccountServiceImpl(@Value("${user-service.url}") String accountServiceUrl,
                               RestTemplate restTemplate) {
         this.accountServiceUrl = accountServiceUrl;
@@ -37,14 +36,12 @@ public class AccountServiceImpl implements AccountService {
     @Override
     public Account getAccount() {
         HttpHeaders headers = new HttpHeaders();
-//        headers.add(ACCOUNT_ID, RequestContextHolder.getRequestAttributes().getAttribute(ACCOUNT_ID, RequestAttributes.SCOPE_REQUEST).toString());
-        headers.add(ACCOUNT_ID, DEFAULT_ACCOUNT_ID);
+        headers.add(ACCOUNT_ID, RequestContextHolder.getRequestAttributes().getAttribute(ACCOUNT_ID, RequestAttributes.SCOPE_REQUEST).toString());
         headers.add(ACCOUNT_ROLE, RequestContextHolder.getRequestAttributes().getAttribute(ACCOUNT_ROLE, RequestAttributes.SCOPE_REQUEST).toString());
 
         HttpEntity entity = new HttpEntity(headers);
 
         return objectMapper.convertValue( restTemplate.exchange(accountServiceUrl + "/api/v1/account", HttpMethod.GET, entity, Response.class).getBody().getData(), Account.class);
-//        return new Account(13L, "abc@gmail.com", "nick", true);
     }
 
     @Override
